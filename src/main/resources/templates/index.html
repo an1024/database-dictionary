@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="padding-top:150px">
+    <div class="card bg-light text-dark m-auto container" style="width:500px;padding:50px 50px">
+        <div class="container">
+            <h2>数据字典</h2>
+    <div class="form-group">
+        <select id="selector" name="selector" class="form-control form-control-chosen" >
+            <option value="oracle">oracle</option>
+            <option value="mysql">mysql</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input hidden>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="ip" name="ip" placeholder="主机名或IP地址">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="port" name="port" placeholder="端口">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="database" name="database" placeholder="数据库">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+    </div>
+    <button id="submit" type="submit" class="btn btn-primary form-control">建立连接</button>
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        document.onkeydown = keyDownSearch;
+
+        function keyDownSearch(e) {
+            // 兼容FF和IE和Opera
+            var theEvent = e || window.event;
+            var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+            if (code == 13) {
+                submitFrom();
+                return false;
+            }
+            return true;
+        }
+
+        // 为span元素绑定click事件
+        $('#submit').bind("click", function () {
+            submitFrom();
+        });
+
+        function submitFrom() {
+            var ip = $("#ip").val();
+            var port = $("#port").val();
+            var database = $("#database").val();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var selector = $("#selector").val();
+
+            sessionStorage.setItem("ip", ip);
+            sessionStorage.setItem("port", port);
+            sessionStorage.setItem("database", database);
+            sessionStorage.setItem("username", username);
+            sessionStorage.setItem("password", password);
+            sessionStorage.setItem("selector", selector)
+            var body = $("body");
+            //创建表单
+            var form = $("<form></form>");
+            //设置表单各项属性
+            form.attr("action", "login");
+            form.attr("method", "post");
+            var input = $("<input name='selector' />");
+            input.attr("value", $("#selector").val());
+            form.append(input);
+            var ipInput = $("<input name='ip' />");
+            ipInput.attr("value", ip);
+            form.append(ipInput);
+            var portInput = $("<input name='port' />");
+            portInput.attr("value", port);
+            form.append(portInput);
+            var databaseInput = $("<input name='database' />");
+            databaseInput.attr("value", database);
+            form.append(databaseInput);
+            var usernameInput = $("<input name='username' />");
+            usernameInput.attr("value", username);
+            form.append(usernameInput);
+            var passwordInput = $("<input name='password' />");
+            passwordInput.attr("value", password);
+            form.append(passwordInput);
+            form.hide();
+            body.append(form);
+            //提交表单
+            form.submit();
+            form.remove();
+        }
+    })
+</script>
+
+</body>
+</html>
